@@ -26,6 +26,34 @@ public class Wallet {
     public void purchaseCurrency(Currencies currency, double quantity){
         double latestValue = currencyAPIConnector.getLatestData().getJSONObject("data").getJSONObject(currency.toString()).getDouble("value");
         wallet.put(currency, new Transaction(latestValue, quantity));
+        System.out.println("Currency purchased");
 
     }
+
+
+    public void sellCurrency(Currencies currencies){
+        for(Currencies key : wallet.keySet()){
+            if (key == currencies){
+                wallet.remove(currencies);
+                System.out.println("Currency sold");
+            }
+
+        }
+    }
+
+    public void printWallet(){
+        if (wallet.size() > 0) {
+            for (Currencies key : wallet.keySet()) {
+                System.out.println("Currency: " + key + ", " + wallet.get(key));
+
+            }
+        } else{
+            System.out.println("The wallet is empty");
+
+        }
+    }
+
+
+
+
 }

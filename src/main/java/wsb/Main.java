@@ -10,6 +10,13 @@ public class Main {
 
         getExchangeHistorical("2022-03-07", 2000.0);
 
+        Wallet wallet = new Wallet();
+        wallet.purchaseCurrency(Currencies.CAD, 2000.0);
+        wallet.printWallet();
+        wallet.sellCurrency(Currencies.CAD);
+        wallet.printWallet();
+
+
 
 
     }
@@ -25,8 +32,6 @@ public class Main {
             System.out.println("This is not  a good moment to sell USD and buy PLN, 1.0 USD is equal to: " + latestValue);
             System.out.println("You will loose: " + ((historicalValue*amount) - (latestValue*amount)) +"PLN");
         }
-
-
 
     }
 
