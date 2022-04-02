@@ -22,13 +22,16 @@ public class Main {
             System.out.println("This is a good moment to sell USD and buy PLN, 1.0 USD is equal to: " + latestValue);
             System.out.println("You will earn: " + ((latestValue*amount) - (historicalValue*amount)) + "PLN");
         } else{
-            System.out.println("This is not  a good moment to sell USD and buy PLN, 1.0 USD is equal to: " + historicalValue);
+            System.out.println("This is not  a good moment to sell USD and buy PLN, 1.0 USD is equal to: " + latestValue);
             System.out.println("You will loose: " + ((historicalValue*amount) - (latestValue*amount)) +"PLN");
         }
 
 
 
     }
+
+
+
 
 
 
