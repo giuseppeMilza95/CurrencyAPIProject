@@ -1,25 +1,30 @@
 package wsb;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Transaction {
-    private double value;
+    private double exchangeRate;
     private double quantity;
     private Date transactionDate;
+    private SimpleDateFormat dateFormat;
+    private String date;
 
-    public Transaction(double value, double quantity) {
-        this.value = value;
+    public Transaction(double exchangeRate, double quantity) {
+        this.dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        this.exchangeRate = exchangeRate;
         this.quantity = quantity;
         this.transactionDate = new Date();
+        this.date = dateFormat.format(transactionDate);
+
     }
 
     public double getAmount() {
-        return value;
+        return exchangeRate;
     }
 
     public void setAmount(double amount) {
-        this.value = amount;
+        this.exchangeRate = amount;
     }
 
     public double getQuantity() {
@@ -32,6 +37,6 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "quantity: " + quantity + ", value: " + value + ", date of the transaction: " + transactionDate;
+        return "quantity: " + quantity + ", value: " + exchangeRate + ", date of the transaction: " + date;
     }
 }

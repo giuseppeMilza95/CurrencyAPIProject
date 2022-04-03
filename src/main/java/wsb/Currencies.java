@@ -1,7 +1,7 @@
 package wsb;
 
 public enum Currencies {
-    EURO,
+    EUR,
     PLN,
     CHF,
     USD,

@@ -2,19 +2,41 @@ package wsb;
 
 import org.json.JSONObject;
 
+import java.sql.SQLException;
+
 public class Main {
 
     public static void main(String[] args) {
         CurrencyAPIConnector connector = new CurrencyAPIConnector();
-        System.out.println(connector.getLatestData());
+        //System.out.println(connector.getLatestData());
+        System.out.println("*****************Task2******************");
+        //getExchangeHistorical("2022-03-02", 2000.0);
 
-        getExchangeHistorical("2022-03-07", 2000.0);
-
+        System.out.println("*****************Task3******************");
         Wallet wallet = new Wallet();
         wallet.purchaseCurrency(Currencies.CAD, 2000.0);
+        wallet.purchaseCurrency(Currencies.CAD, 2000.0);
+        wallet.purchaseCurrency(Currencies.PLN, 2500.0);
         wallet.printWallet();
-        wallet.sellCurrency(Currencies.CAD);
+        wallet.sellCurrency(Currencies.CAD, Currencies.USD);
         wallet.printWallet();
+        System.out.println("*****************Task4******************");
+//        try {
+//            new DataBaseConnector().connect();
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//        }
+
+//        try {
+//
+//            String query = "insert into transaction values(1,'2022-01-01', 'PLN', '1000')";
+//            new DataBaseConnector().execute(query);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
+
+
 
 
 
