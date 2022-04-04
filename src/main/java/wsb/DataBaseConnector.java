@@ -13,20 +13,15 @@ public class DataBaseConnector implements DatabaseQuery{
         Properties props = new Properties();
         props.setProperty("user",DatabaseConfig.USERNAME);
         props.setProperty("password",DatabaseConfig.PASS);
-        //props.setProperty("ssl","true");
-        Connection conn = DriverManager.getConnection(url, props);
-        return conn;
+        return DriverManager.getConnection(url, props);
 
     }
 
 
 
-//    public ResultSet execute(String query) throws SQLException {
-//
-//    }
 
     @Override
-    public void insertQuery(String query) {
+    public void insertUpdateQuery(String query) {
         try {
             Connection conn = connect();
             Statement stm = conn.createStatement();

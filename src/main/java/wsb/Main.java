@@ -3,6 +3,7 @@ package wsb;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class Main {
 
@@ -14,26 +15,14 @@ public class Main {
 
         System.out.println("*****************Task3******************");
         Wallet wallet = new Wallet();
-        wallet.loadDatabaseTransaction("SELECT  date, currency, amount, id FROM public.transaction where wallet = true order by date desc");
-        //wallet.purchaseCurrency(Currencies.CAD, 2000.0);
-        //wallet.purchaseCurrency(Currencies.CAD, 2000.0);
-//        wallet.purchaseCurrency(Currencies.PLN, 2500.0);
-//        wallet.printWallet();
-//        wallet.sellCurrency(Currencies.CAD, Currencies.USD);
-        //wallet.printWallet();
-        //wallet.loadDatabaseTransaction("SELECT date, currency, amount, id FROM public.transaction;");
+        wallet.loadDatabaseTransaction();
         System.out.println("---------Uploading the currencies fro  database: ");
-
         wallet.printWallet();
-        System.out.println("-------------purchasing cuurencies---------------");
-        //wallet.purchaseCurrency(Currencies.CAD, 2000.0);
-        //wallet.purchaseCurrency(Currencies.EUR, 3000.0);
-        //wallet.purchaseCurrency(Currencies.CAD, 1000.0);
-        //wallet.purchaseCurrency(Currencies.JPY, 15000.0);
-        //wallet.purchaseCurrency(Currencies.PLN, 4000.0);
-        //wallet.printWallet();
+        System.out.println("-------------purchasing currencies---------------");
         System.out.println("------------selling currencies ---------");
-        wallet.sellCurrency(Currencies.CAD, Currencies.EUR);
+        //wallet.purchaseCurrency(Currencies.PLN, 25000);
+        wallet.sellCurrency(Currencies.PLN, Currencies.JPY);
+        //wallet.purchaseCurrency(Currencies.CHF,20000.0);
         wallet.printWallet();
 
         //wallet.printWallet();
@@ -74,6 +63,8 @@ public class Main {
         }
 
     }
+
+
 
 
 
