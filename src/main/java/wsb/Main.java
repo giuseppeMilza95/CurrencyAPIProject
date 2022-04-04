@@ -14,23 +14,41 @@ public class Main {
 
         System.out.println("*****************Task3******************");
         Wallet wallet = new Wallet();
-        wallet.purchaseCurrency(Currencies.CAD, 2000.0);
-        wallet.purchaseCurrency(Currencies.CAD, 2000.0);
-        wallet.purchaseCurrency(Currencies.PLN, 2500.0);
+        wallet.loadDatabaseTransaction("SELECT  date, currency, amount, id FROM public.transaction where wallet = true order by date desc");
+        //wallet.purchaseCurrency(Currencies.CAD, 2000.0);
+        //wallet.purchaseCurrency(Currencies.CAD, 2000.0);
+//        wallet.purchaseCurrency(Currencies.PLN, 2500.0);
+//        wallet.printWallet();
+//        wallet.sellCurrency(Currencies.CAD, Currencies.USD);
+        //wallet.printWallet();
+        //wallet.loadDatabaseTransaction("SELECT date, currency, amount, id FROM public.transaction;");
+        System.out.println("---------Uploading the currencies fro  database: ");
+
         wallet.printWallet();
-        wallet.sellCurrency(Currencies.CAD, Currencies.USD);
+        System.out.println("-------------purchasing cuurencies---------------");
+        //wallet.purchaseCurrency(Currencies.CAD, 2000.0);
+        //wallet.purchaseCurrency(Currencies.EUR, 3000.0);
+        //wallet.purchaseCurrency(Currencies.CAD, 1000.0);
+        //wallet.purchaseCurrency(Currencies.JPY, 15000.0);
+        //wallet.purchaseCurrency(Currencies.PLN, 4000.0);
+        //wallet.printWallet();
+        System.out.println("------------selling currencies ---------");
+        wallet.sellCurrency(Currencies.CAD, Currencies.EUR);
         wallet.printWallet();
+
+        //wallet.printWallet();
         System.out.println("*****************Task4******************");
-//        try {
-//            new DataBaseConnector().connect();
-//        }catch (SQLException e){
-//            e.printStackTrace();
-//        }
+        try {
+            new DataBaseConnector().connect();
+            System.out.println("Connected");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
 
 //        try {
 //
-//            String query = "insert into transaction values(1,'2022-01-01', 'PLN', '1000')";
-//            new DataBaseConnector().execute(query);
+//            String query = "insert into transaction(currency, amount, exchangerate, date) values('EUR', '2000', '0.8', '2022-04-03')";
+//            new DataBaseConnector().insertQuery(query);
 //        }catch (Exception e){
 //            e.printStackTrace();
 //        }

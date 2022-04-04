@@ -8,14 +8,13 @@ public class Transaction {
     private double quantity;
     private Date transactionDate;
     private SimpleDateFormat dateFormat;
-    private String date;
 
-    public Transaction(double exchangeRate, double quantity) {
+
+    public Transaction(double exchangeRate, double quantity, Date transactionDate) {
         this.dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         this.exchangeRate = exchangeRate;
         this.quantity = quantity;
-        this.transactionDate = new Date();
-        this.date = dateFormat.format(transactionDate);
+        this.transactionDate = transactionDate;
 
     }
 
@@ -37,6 +36,6 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "quantity: " + quantity + ", value: " + exchangeRate + ", date of the transaction: " + date;
+        return "quantity: " + quantity + ", value: " + exchangeRate + ", date of the transaction: " + transactionDate;
     }
 }
