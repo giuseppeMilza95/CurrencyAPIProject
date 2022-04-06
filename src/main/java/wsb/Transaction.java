@@ -5,10 +5,10 @@ import java.util.Date;
 public class Transaction {
     private double exchangeRate;
     private double amount;
-    private Date transactionDate;
+    private String transactionDate;
 
 
-    public Transaction(double exchangeRate, double amount, Date transactionDate) {
+    public Transaction(double exchangeRate, double amount, String transactionDate) {
 
         this.exchangeRate = exchangeRate;
         this.amount = amount;
@@ -32,11 +32,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public Date getTransactionDate() {
+    public String getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(String transactionDate) {
         this.transactionDate = transactionDate;
     }
 

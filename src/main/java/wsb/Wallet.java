@@ -2,6 +2,7 @@ package wsb;
 
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +14,8 @@ public class Wallet {
     Map<Currencies, Transaction> userWallet;
     private DataBaseConnector connector;
     private static final String UPDATE_DATABASE_QUERY = "SELECT  date, currency, amount, exchangerate, id FROM public.transaction where wallet = true order by date desc";
+    private SimpleDateFormat simpleDateFormat;
+    private Currencies previousCurrency;
 
 
 
@@ -21,6 +24,7 @@ public class Wallet {
         this.currencyAPIConnector = new CurrencyAPIConnector();
         //this.purchaseCurrency(Currencies.EUR, 2500, new Date());
         this.connector = new DataBaseConnector();
+        this.simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
     }
 
     public String getWalletOwner() {
@@ -35,16 +39,27 @@ public class Wallet {
         // todo: latestValue commented out due to over reached the daily request limit
         //double latestValue = currencyAPIConnector.getLatestData().getJSONObject("data").getJSONObject(currency.toString()).getDouble("value");
         double latestValue = 4.22;
+        for (Currencies key : userWallet.keySet()) {
+            if (currency == key){
+                this.previousCurrency = key;
+            }
+        }
         if (userWallet.containsKey(currency)) {
+
+
+            double previousAmount = userWallet.get(currency).getAmount();
+
+            String query2 = "UPDATE transaction SET wallet = FALSE WHERE currency = '" +this.previousCurrency +"'" + " and amount = " + previousAmount;
             String query = "insert into transaction(currency, amount, exchangerate, date, wallet, swap) values ('" + currency + "', '" + (userWallet.get(currency).getAmount() + quantity) + "', '" + latestValue + "', '" + new Date() + "', 'TRUE', 'Purchase')";
             connector.insertUpdateQuery(query);
-            userWallet.put(currency, new Transaction(latestValue, userWallet.get(currency).getAmount() + quantity, new Date()));
+            connector.insertUpdateQuery(query2);
+            userWallet.put(currency, new Transaction(latestValue, userWallet.get(currency).getAmount() + quantity, simpleDateFormat.format(new Date())));
             //loadDatabaseTransaction("SELECT  date, currency, amount, id FROM public.transaction where wallet = true");
 
         } else {
             String query = "insert into transaction(currency, amount, exchangerate, date, wallet, swap) values ('" + currency + "', '" + quantity + "', '" + latestValue + "', '" + new Date() + "', 'TRUE', 'Purchase')";
             connector.insertUpdateQuery(query);
-            userWallet.put(currency, new Transaction(latestValue, quantity, new Date()));
+            userWallet.put(currency, new Transaction(latestValue, quantity, simpleDateFormat.format(new Date())));
             //loadDatabaseTransaction("SELECT  date, currency, amount, id FROM public.transaction where wallet = true");
             System.out.println("Currency: " + currency + " purchased successfully");
 
@@ -90,7 +105,7 @@ public class Wallet {
         try {
             ResultSet rs = dataBaseConnector.selectQuery(UPDATE_DATABASE_QUERY);
             while (rs.next()) {
-                Date date1 = rs.getDate("date");
+                String date1 = rs.getString("date");
                 String currency = rs.getString("currency");
                 double quantity = rs.getDouble("amount");
                 double exchangeRate = rs.getDouble("exchangerate");

@@ -21,7 +21,12 @@ public class Main {
         System.out.println("-------------purchasing currencies---------------");
         System.out.println("------------selling currencies ---------");
         //wallet.purchaseCurrency(Currencies.PLN, 25000);
-        wallet.sellCurrency(Currencies.PLN, Currencies.JPY);
+        //wallet.purchaseCurrency(Currencies.USD, 25000);
+        //wallet.purchaseCurrency(Currencies.CHF, 25000);
+        //wallet.purchaseCurrency(Currencies.JPY, 25000);
+        //wallet.purchaseCurrency(Currencies.JPY, 25000);
+        wallet.sellCurrency(Currencies.CHF, Currencies.CAD);
+
         //wallet.purchaseCurrency(Currencies.CHF,20000.0);
         wallet.printWallet();
 
