@@ -24,7 +24,7 @@ public class Wallet {
      * **/
 
 
-    // Create a public constructor to help to initialize some og the field when an instance on the class Wallet is created
+    // Create a public constructor to help to initialize some  the field when an instance on the class Wallet is created
     public Wallet() {
         this.userWallet = new ConcurrentHashMap<>();
         this.currencyAPIConnector = new CurrencyAPIConnector();
@@ -41,14 +41,14 @@ public class Wallet {
         this.walletOwner = walletOwner;
     }
 
-    // Create the a function to purchase the currency passing the Enum and the Quantity
+    // Create  a function to purchase the currency passing the Enum and the Quantity
 
     public void purchaseCurrency(Currencies currency, double quantity) {
         // todo: latestValue commented out due to over reached the daily request limit, I have declared a default value just to test out the logic
         //double latestValue = currencyAPIConnector.getLatestData().getJSONObject("data").getJSONObject(currency.toString()).getDouble("value");
         double latestValue = 4.22;
         // Loop into the through the userWallet and check if the currency is inside the Map, If it is present, we assign to currency into the
-        //variable previous currency
+        //variable previousCurrency
         for (Currencies key : userWallet.keySet()) {
             if (currency == key){
                 this.previousCurrency = key;
@@ -64,7 +64,7 @@ public class Wallet {
 
             //I created two queries, one to update the database, it will set the into the wallet to false for the previous currency and previous amount without changing the purchase state of the transaction
             String query2 = "UPDATE transaction SET wallet = FALSE WHERE currency = '" +this.previousCurrency +"'" + " and amount = " + previousAmount;
-            // I insert the transaction into the database summing the previous quantity with the new one and set the iinto the wallet to true and set the swap to Purchase
+            // I insert the transaction into the database summing the previous quantity with the new one and set the into the wallet to true and set the swap to Purchase
             String query = "insert into transaction(currency, amount, exchangerate, date, wallet, swap) values ('" + currency + "', '" + (userWallet.get(currency).getAmount() + quantity) + "', '" + latestValue + "', '" + new Date() + "', 'TRUE', 'Purchase')";
 
             // Execute the two queries
@@ -93,14 +93,14 @@ public class Wallet {
 
     public void sellCurrency(Currencies currencies, Currencies toExchange) {
 
-        // We interate through, I have converted the Map to Set to avoid concurrency exception
+        // We iterate through, I have converted the Map to Set to avoid concurrency exception
         Set<Map.Entry<Currencies, Transaction>> entrySet = userWallet.entrySet();
         for (Map.Entry<Currencies, Transaction> entry : entrySet) {
 
             //We check if the currency is inside the wallet
             if (entry.getKey() == currencies) {
 
-                //If the currency is inside the wallet we proceesed to purchase the new currency calling the method PurchaseCurrency
+                //If the currency is inside the wallet we proceed to purchase the new currency calling the method PurchaseCurrency
                 purchaseCurrency(toExchange, userWallet.get(entry.getKey()).getAmount());
                 //It will update the wallet status for the old currency.
                 String query = "UPDATE transaction SET wallet = FALSE,  swap = 'Sold' WHERE currency = '" + currencies + "'";
@@ -134,7 +134,7 @@ public class Wallet {
         }
     }
 
-    // I have created a method that load the trasaction from our database
+    // I have created a method that load the transaction from our database
     public void loadDatabaseTransaction() {
         DataBaseConnector dataBaseConnector = new DataBaseConnector();
 
@@ -142,7 +142,7 @@ public class Wallet {
 
             //create the result set and pass the query
             ResultSet rs = dataBaseConnector.selectQuery(UPDATE_DATABASE_QUERY);
-            //Interate through our result set and store each entry into the variables and put the transaction inside the userWallet
+            //Iterate through our result set and store each entry into the variables and put the transaction inside the userWallet
             while (rs.next()) {
                 String date1 = rs.getString("date");
                 String currency = rs.getString("currency");

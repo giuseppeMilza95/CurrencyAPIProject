@@ -29,7 +29,7 @@ public class Main {
         System.out.println("------------selling currencies ---------");
 
         //Selling USD for CAD
-        wallet.sellCurrency(Currencies.USD, Currencies.CAD);
+        //wallet.sellCurrency(Currencies.USD, Currencies.CAD);
 
         //Print the wallet
         wallet.printWallet();
