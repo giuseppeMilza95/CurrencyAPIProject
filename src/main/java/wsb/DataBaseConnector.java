@@ -18,7 +18,8 @@ public class DataBaseConnector implements DatabaseQuery{
     }
 
 
-
+    //I have created an interface for the database query
+    //One is to updateInsert and the second method is to select query
 
     @Override
     public void insertUpdateQuery(String query) {

@@ -15,19 +15,23 @@ public class Main {
 
         System.out.println("*****************Task3******************");
         Wallet wallet = new Wallet();
-        wallet.loadDatabaseTransaction();
         System.out.println("---------Uploading the currencies fro  database: ");
+
+        //Load the transactions
+        wallet.loadDatabaseTransaction();
+
+        //Print the wallet
         wallet.printWallet();
         System.out.println("-------------purchasing currencies---------------");
-        System.out.println("------------selling currencies ---------");
-        //wallet.purchaseCurrency(Currencies.PLN, 25000);
-        //wallet.purchaseCurrency(Currencies.USD, 25000);
-        //wallet.purchaseCurrency(Currencies.CHF, 25000);
-        //wallet.purchaseCurrency(Currencies.JPY, 25000);
-        //wallet.purchaseCurrency(Currencies.JPY, 25000);
-        wallet.sellCurrency(Currencies.CHF, Currencies.CAD);
 
-        //wallet.purchaseCurrency(Currencies.CHF,20000.0);
+        //Purchasing USD
+        wallet.purchaseCurrency(Currencies.USD, 25000);
+        System.out.println("------------selling currencies ---------");
+
+        //Selling USD for CAD
+        wallet.sellCurrency(Currencies.USD, Currencies.CAD);
+
+        //Print the wallet
         wallet.printWallet();
 
         //wallet.printWallet();
