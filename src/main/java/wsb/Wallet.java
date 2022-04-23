@@ -22,7 +22,7 @@ public class Wallet {
 
     /**
      * The database is already updated with one transaction and currency inside the wallet
-     * **/
+     **/
 
 
     // Create a public constructor to help to initialize some  the field when an instance on the class Wallet is created
@@ -51,7 +51,7 @@ public class Wallet {
         // Loop into the through the userWallet and check if the currency is inside the Map, If it is present, we assign to currency into the
         //variable previousCurrency
         for (Currencies key : userWallet.keySet()) {
-            if (currency == key){
+            if (currency == key) {
                 this.previousCurrency = key;
             }
         }
@@ -148,18 +148,17 @@ public class Wallet {
                 String currency = rs.getString("currency");
                 double quantity = rs.getDouble("amount");
                 double exchangeRate = rs.getDouble("exchangerate");
-                if (!userWallet.containsKey(Currencies.valueOf(currency))){
-                userWallet.put(Currencies.valueOf(currency), new Transaction(exchangeRate, quantity, date1));
-                } else{
-                    for (Currencies key : userWallet.keySet()){
-                        if (Currencies.valueOf(currency) == key){
+                if (!userWallet.containsKey(Currencies.valueOf(currency))) {
+                    userWallet.put(Currencies.valueOf(currency), new Transaction(exchangeRate, quantity, date1));
+                } else {
+                    for (Currencies key : userWallet.keySet()) {
+                        if (Currencies.valueOf(currency) == key) {
                             userWallet.put(Currencies.valueOf(currency), new Transaction(exchangeRate, quantity + userWallet.get(key).getAmount(), date1));
                         }
 
 
                     }
                 }
-
 
 
             }
@@ -169,11 +168,11 @@ public class Wallet {
 
     }
 
-    public void listTransactionHistory(){
+    public void listTransactionHistory() {
         ResultSet rs = connector.selectQuery(TRANSACTION_HISTORY_QUERY);
         int count = 0;
         try {
-            while (rs.next()){
+            while (rs.next()) {
 
                 String date1 = rs.getString("date");
                 String currency = rs.getString("currency");
@@ -182,18 +181,16 @@ public class Wallet {
                 String wallet = rs.getString("wallet");
                 String swap = rs.getString("swap");
                 count++;
-                System.out.println("Currency: " + currency + ", quantity: " + quantity + ", exchange rate: "+ exchangeRate + ", inside wallet: " + ((wallet.equals("f")) ? "no" : "yes") + ", transaction type: " + swap +", date of transaction:" + date1);
+                System.out.println("Currency: " + currency + ", quantity: " + quantity + ", exchange rate: " + exchangeRate + ", inside wallet: " + ((wallet.equals("f")) ? "no" : "yes") + ", transaction type: " + swap + ", date of transaction:" + date1);
             }
 
             System.out.println("The toal number of transaction is: " + count);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
 
     }
-
-
 
 
 }
