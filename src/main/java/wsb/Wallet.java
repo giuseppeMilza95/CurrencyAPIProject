@@ -15,7 +15,8 @@ public class Wallet {
     private String walletOwner;
     Map<Currencies, Transaction> userWallet;
     private DataBaseConnector connector;
-    private static final String UPDATE_DATABASE_QUERY = "SELECT  date, currency, amount, exchangerate, id FROM public.transaction where wallet = true order by date desc";
+    private static final String SELECT_DATABASE_QUERY = "SELECT  date, currency, amount, exchangerate, id FROM public.transaction where wallet = true order by date desc";
+    private static final String TRANSACTION_HISTORY_QUERY = "SELECT id, currency, amount, exchangerate, date, wallet, swap FROM public.transaction order by date desc";
     private SimpleDateFormat simpleDateFormat;
     private Currencies previousCurrency;
 
@@ -63,13 +64,13 @@ public class Wallet {
             double previousAmount = userWallet.get(currency).getAmount();
 
             //I created two queries, one to update the database, it will set the into the wallet to false for the previous currency and previous amount without changing the purchase state of the transaction
-            String query2 = "UPDATE transaction SET wallet = FALSE WHERE currency = '" +this.previousCurrency +"'" + " and amount = " + previousAmount;
+            //String query2 = "UPDATE transaction SET wallet = FALSE WHERE currency = '" +this.previousCurrency +"'" + " and amount = " + previousAmount;
             // I insert the transaction into the database summing the previous quantity with the new one and set the into the wallet to true and set the swap to Purchase
-            String query = "insert into transaction(currency, amount, exchangerate, date, wallet, swap) values ('" + currency + "', '" + (userWallet.get(currency).getAmount() + quantity) + "', '" + latestValue + "', '" + new Date() + "', 'TRUE', 'Purchase')";
+            String query = "insert into transaction(currency, amount, exchangerate, date, wallet, swap) values ('" + currency + "', '" + quantity + "', '" + latestValue + "', '" + new Date() + "', 'TRUE', 'Purchase')";
 
             // Execute the two queries
             connector.insertUpdateQuery(query);
-            connector.insertUpdateQuery(query2);
+            //connector.insertUpdateQuery(query2);
             // Update the wallet Map with the new transaction and currency
             userWallet.put(currency, new Transaction(latestValue, userWallet.get(currency).getAmount() + quantity, simpleDateFormat.format(new Date())));
             //loadDatabaseTransaction("SELECT  date, currency, amount, id FROM public.transaction where wallet = true");
@@ -136,19 +137,30 @@ public class Wallet {
 
     // I have created a method that load the transaction from our database
     public void loadDatabaseTransaction() {
-        DataBaseConnector dataBaseConnector = new DataBaseConnector();
 
         try {
 
             //create the result set and pass the query
-            ResultSet rs = dataBaseConnector.selectQuery(UPDATE_DATABASE_QUERY);
+            ResultSet rs = connector.selectQuery(SELECT_DATABASE_QUERY);
             //Iterate through our result set and store each entry into the variables and put the transaction inside the userWallet
             while (rs.next()) {
                 String date1 = rs.getString("date");
                 String currency = rs.getString("currency");
                 double quantity = rs.getDouble("amount");
                 double exchangeRate = rs.getDouble("exchangerate");
+                if (!userWallet.containsKey(Currencies.valueOf(currency))){
                 userWallet.put(Currencies.valueOf(currency), new Transaction(exchangeRate, quantity, date1));
+                } else{
+                    for (Currencies key : userWallet.keySet()){
+                        if (Currencies.valueOf(currency) == key){
+                            userWallet.put(Currencies.valueOf(currency), new Transaction(exchangeRate, quantity + userWallet.get(key).getAmount(), date1));
+                        }
+
+
+                    }
+                }
+
+
 
             }
         } catch (Exception e) {
@@ -156,6 +168,32 @@ public class Wallet {
         }
 
     }
+
+    public void listTransactionHistory(){
+        ResultSet rs = connector.selectQuery(TRANSACTION_HISTORY_QUERY);
+        int count = 0;
+        try {
+            while (rs.next()){
+
+                String date1 = rs.getString("date");
+                String currency = rs.getString("currency");
+                double quantity = rs.getDouble("amount");
+                double exchangeRate = rs.getDouble("exchangerate");
+                String wallet = rs.getString("wallet");
+                String swap = rs.getString("swap");
+                count++;
+                System.out.println("Currency: " + currency + ", quantity: " + quantity + ", exchange rate: "+ exchangeRate + ", inside wallet: " + ((wallet.equals("f")) ? "no" : "yes") + ", transaction type: " + swap +", date of transaction:" + date1);
+            }
+
+            System.out.println("The toal number of transaction is: " + count);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
 
 
 }

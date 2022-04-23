@@ -25,7 +25,10 @@ public class Main {
         System.out.println("-------------purchasing currencies---------------");
 
         //Purchasing USD
-        wallet.purchaseCurrency(Currencies.USD, 25000);
+        //wallet.purchaseCurrency(Currencies.PLN, 25000);
+        //wallet.purchaseCurrency(Currencies.CAD, 25000);
+        //wallet.sellCurrency(Currencies.USD, Currencies.JPY);
+        //wallet.sellCurrency(Currencies.PLN, Currencies.USD);
         System.out.println("------------selling currencies ---------");
 
         //Selling USD for CAD
@@ -33,6 +36,7 @@ public class Main {
 
         //Print the wallet
         wallet.printWallet();
+        wallet.listTransactionHistory();
 
         //wallet.printWallet();
         System.out.println("*****************Task4******************");
